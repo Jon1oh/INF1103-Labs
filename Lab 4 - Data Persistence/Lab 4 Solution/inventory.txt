@@ -1,6 +1,0 @@
-Final Total Orders: 3
-
-Transaction History:
-#1,apples,20
-#2,pears,10
-#3,bananas,3

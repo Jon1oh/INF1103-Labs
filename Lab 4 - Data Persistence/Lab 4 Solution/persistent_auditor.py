@@ -50,22 +50,38 @@ def get_next_order_id(orders):
 
 
 def get_new_order_details():
-    """Returns (product_name, quantity), or False if the user wants to quit."""
-    product_name = input("\nEnter Product Name (or 'quit' to exit): ")
-    if product_name.strip().lower() == "quit":
-        return False
+    """
+    Returns (product_name, quantity),
+    or False if the user wants to quit.
+    """
 
     while True:
-        quantity_input = input("Enter Quantity: ")
+        product_name = input("\nEnter Product Name (or 'quit' to exit): ").strip()
+
+        if product_name.lower() == "quit":
+            return False
+        if not product_name:
+            print("Product name cannot be empty.")
+            continue
+        if not product_name.isalpha():
+            print("Product name must contain alphabets only.")
+            continue
+        break
+    
+    while True:
+        quantity_input = input("Enter Quantity: ").strip()
+        if quantity_input == "":
+            print("Quantity cannot be empty.")
+            continue
         try:
             quantity = int(quantity_input)
             if quantity < 0:
-                print("Please try again. Quantity must be 0 or greater.")
+                print("Quantity must be 0 or greater.")
                 continue
             return product_name, quantity
+
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
-
 
 def save_order(order, filename="orders.txt"):
     """Append a single new order to the file as #order_id,product_name,quantity"""
