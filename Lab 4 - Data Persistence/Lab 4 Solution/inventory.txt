@@ -1,0 +1,11 @@
+Final Total Orders: 8
+
+Transaction History:
+#1, apples, 10, $1.00
+#2, bananas, 20, $2.00
+#3, pears, 2, $0.20
+#4, cherries, 4, $0.40
+#5, berries, 2, $0.20
+#6, watermelons, 30, $3.00
+#7, grapes, 3, $0.30
+#8, pen, 2, $0.20
