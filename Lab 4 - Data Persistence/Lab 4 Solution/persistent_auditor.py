@@ -134,7 +134,7 @@ while True:
     result = get_new_order_details() # get quantities for product name and quantity 
     if result is False:
         save_summary(orders)
-        print(f"\nTotal Failed Validation Attempts: {stats["failed_attempts"]}")
+        print(f"\nTotal Failed Validation Attempts: {stats['failed_attempts']}")
         print("\nExiting the program.")
         break
 
