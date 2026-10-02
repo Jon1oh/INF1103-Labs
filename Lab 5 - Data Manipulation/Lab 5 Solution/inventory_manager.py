@@ -2,14 +2,14 @@ from tabulate import tabulate
 import json, os
 
 def display_menu():    
-    print(f"{"-" * 10}MENU{"-" * 10}")
+    print(f"{'-' * 10}MENU{'-' * 10}")
     print("1. Display All Products")
     print("2. Add Product")
     print("3. Update Stock")
     print("4. Search Product")
     print("5. Save Inventory")
     print("6. Exit")
-    print(f"{"-" * 20}")
+    print(f"{'-' * 20}")
     
 
 def validate_menu_choice(choice):
