@@ -1,5 +1,5 @@
 # main program code/loop here
-from persistent_auditor import (
+from inventory_manager import (
     display_inventory, get_next_item_id, save_inventory,
     get_new_item_details, update_inventory,
     load_inventory, save_inventory, display_inventory,
