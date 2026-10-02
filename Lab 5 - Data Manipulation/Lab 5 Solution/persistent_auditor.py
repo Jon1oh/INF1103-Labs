@@ -17,7 +17,6 @@ def validate_menu_choice(choice):
         print("Invalid choice. Please enter a number between 1 and 6.\n")
         return False
     elif choice == "6":
-        print("Thank you for using the Inventory Management System. Goodbye!")
         return "quit"
     else: # when input is options 1-5
         return choice
@@ -42,7 +41,6 @@ def save_inventory(inventory, filename="inventory.json"):
     with open(filename, "w") as f:
         json.dump(inventory, f, indent=4)
 
-
 def load_inventory(filename="inventory.json"):
     # Load inventory from inventory.json. If the file does not exist, return an empty list.
     if not os.path.exists(filename):
@@ -52,15 +50,31 @@ def load_inventory(filename="inventory.json"):
         print("Inventory loaded successfully.\n")             
         return []
     with open(filename, "r") as f:
+        print("inventory.json found.")
+        print("Inventory loaded successfully.\n")
         return json.load(f)
 
 def display_inventory(inventory):
+    if not inventory:
+        print("\nInventory is empty.\n")
+        return
+
+    rows = [
+        [
+            item["product_id"],
+            item["product_name"],
+            item["price"],
+            item["quantity"]
+        ]
+        for item in inventory
+    ]
+
     table_headers = ["Product ID", "Product Name", "Price", "Quantity"]
-    generate_table(table_headers, inventory, "Current Inventory")
-    
+    generate_table(table_headers, rows, "Current Inventory")
+        
 def update_inventory(inventory):
     if not inventory:
-        print("Inventory is empty.")
+        print("\nInventory is empty.\n")
         return False
 
     while True:
@@ -114,9 +128,9 @@ def get_next_item_id(inventory):
 
 def get_new_item_details():
     while True: # ask for product name
-        product_name = input("\nEnter Product Name (or 'quit' to quit): ").strip()
+        product_name = input("\nEnter Product Name (or 'back' to return to main menu): ").strip()
 
-        if product_name.lower() == "quit":
+        if product_name.lower() == "back":
             return False
 
         if not product_name:
@@ -129,9 +143,9 @@ def get_new_item_details():
         break
 
     while True: # ask for product price
-        price_input = input("Enter Product Price (or 'quit' to quit): ").strip()
+        price_input = input("Enter Product Price (or 'back' to return to main menu): ").strip()
 
-        if price_input.lower() == "quit":
+        if price_input.lower() == "back":
             return False
         
         if price_input == "":
@@ -148,9 +162,9 @@ def get_new_item_details():
             print("Invalid input. Please enter a valid price.")
 
     while True: # ask for product quantity
-        quantity_input = input("Enter Quantity (or 'quit' to quit): ").strip()
+        quantity_input = input("Enter Quantity (or 'back' to return to main menu): ").strip()
         
-        if quantity_input.lower() == "quit":
+        if quantity_input.lower() == "back":
             return False
         
         if quantity_input == "":
@@ -165,3 +179,16 @@ def get_new_item_details():
             return product_name, price, quantity
         except ValueError:
             print("Invalid input. Please enter a valid integer.")            
+            
+def confirm_exit_before_saving(unsaved_changes):
+    if unsaved_changes:
+        while True:
+            leave = input("You have unsaved changes. Are you sure you want to exit? All changes will be lost (y/n): ").strip().lower()
+            if leave == "y":
+                return True
+            elif leave == "n":
+                return False
+            else:
+                print("Invalid input. Please enter 'y' or 'n'.")
+    else:
+        return True

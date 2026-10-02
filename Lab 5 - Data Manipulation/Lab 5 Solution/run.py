@@ -1,10 +1,10 @@
 # main program code/loop here
 from persistent_auditor import (
     display_inventory, get_next_item_id, save_inventory,
-    stats,
     get_new_item_details, update_inventory,
     load_inventory, save_inventory, display_inventory,
-    display_menu, validate_menu_choice
+    display_menu, validate_menu_choice,
+    confirm_exit_before_saving
     )
 
 # Main program
@@ -13,6 +13,7 @@ print("INVENTORY MANAGERMENT SYSTEM") # the program banner
 print("=" * 40)
 
 inventory = load_inventory()
+unsaved_changes = False
 
 while True:
     display_menu()
@@ -20,7 +21,11 @@ while True:
     validated_choice = validate_menu_choice(choice)
     
     if validated_choice == "quit": # if valiated_choice is 6
-        break
+        if confirm_exit_before_saving(unsaved_changes):
+            print("Thank you for using the Inventory Management System. Goodbye!")
+            break
+        else:
+            continue
     
     if validated_choice == "1": # display all products
         display_inventory(inventory) 
@@ -28,21 +33,30 @@ while True:
     elif validated_choice == "2": # add product
         new_item = get_new_item_details() 
         if not new_item: # when user quits during product addition
-            print("\nThank you for using the Inventory Management System.")
-            break
-        product_name, price, quiantity = new_item
-        new_row = [get_next_item_id(inventory), product_name, price, quiantity]
+            continue
+            
+        product_name, price, quantity = new_item
+        new_row = {
+            "product_id": get_next_item_id(inventory),
+            "product_name": product_name,
+            "price": price,
+            "quantity": quantity
+        }
         inventory.append(new_row) # add the new item to the inventory
+        unsaved_changes = True
         print("\nProduct added successfully to the inventory!\n")
         
     elif validated_choice == "3":
         update_inventory(inventory) # update stock
+        unsaved_changes = True
     
     elif validated_choice == "4":
         pass # search product
+    
     elif validated_choice == "5":
         save_inventory(inventory) # save inventory
-        print("Inventory saved successfully.")
+        unsaved_changes = False
+        print("Inventory saved successfully.\n")
     
     # display_orders(orders)
     # result = get_new_order_details() # get quantities for product name and quantity 
