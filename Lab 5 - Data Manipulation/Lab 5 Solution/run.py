@@ -1,14 +1,17 @@
 # main program code/loop here
 from persistent_auditor import (
-    save_inventory,
+    display_inventory, get_next_item_id, save_inventory,
     stats,
-    load_inventory, display_orders, get_new_order_details, 
-    save_summary, save_order, calculate_tax, display_new_order, get_next_order_id, 
-    display_menu,
-    validate_menu_choice
+    get_new_item_details, update_inventory,
+    load_inventory, save_inventory, display_inventory,
+    display_menu, validate_menu_choice
     )
 
 # Main program
+print("=" * 40) 
+print("INVENTORY MANAGERMENT SYSTEM") # the program banner
+print("=" * 40)
+
 inventory = load_inventory()
 
 while True:
@@ -19,12 +22,22 @@ while True:
     if validated_choice == "quit": # if valiated_choice is 6
         break
     
-    if validated_choice == "1":
-        pass # display all products
-    elif validated_choice == "2":
-        pass # add product
+    if validated_choice == "1": # display all products
+        display_inventory(inventory) 
+        
+    elif validated_choice == "2": # add product
+        new_item = get_new_item_details() 
+        if not new_item: # when user quits during product addition
+            print("\nThank you for using the Inventory Management System.")
+            break
+        product_name, price, quiantity = new_item
+        new_row = [get_next_item_id(inventory), product_name, price, quiantity]
+        inventory.append(new_row) # add the new item to the inventory
+        print("\nProduct added successfully to the inventory!\n")
+        
     elif validated_choice == "3":
-        pass # update stock
+        update_inventory(inventory) # update stock
+    
     elif validated_choice == "4":
         pass # search product
     elif validated_choice == "5":
