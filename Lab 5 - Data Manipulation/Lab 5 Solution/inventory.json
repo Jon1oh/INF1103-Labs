@@ -10,5 +10,11 @@
         "product_name": "bananas",
         "price": 0.1,
         "quantity": 30
+    },
+    {
+        "product_id": 3,
+        "product_name": "pears",
+        "price": 0.4,
+        "quantity": 40
     }
 ]

@@ -223,5 +223,4 @@ def confirm_exit_before_saving(unsaved_changes):
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
     else:
-        print("No changes were made. Exiting the program.")
         return True
