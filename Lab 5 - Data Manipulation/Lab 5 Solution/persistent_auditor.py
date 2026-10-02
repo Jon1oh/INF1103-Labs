@@ -178,7 +178,39 @@ def get_new_item_details():
                 continue
             return product_name, price, quantity
         except ValueError:
-            print("Invalid input. Please enter a valid integer.")            
+            print("Invalid input. Please enter a valid integer.")    
+            
+def search_item(inventory):
+    if not inventory:
+        print("\nInventory is empty.\n")
+        return False
+
+    product_id_input = input("\nEnter Product ID to search: ").strip()
+
+    if product_id_input == "":
+        print("Product ID cannot be empty.")
+        return False
+
+    try:
+        product_id = int(product_id_input)
+    except ValueError:
+        print("Please enter a valid integer Product ID.")
+        return False
+
+    for item in inventory:
+        if item["product_id"] == product_id:
+
+            print("\nProduct Found")
+            print("-" * 30)
+            print(f"Product ID   : {item['product_id']}")
+            print(f"Product Name : {item['product_name']}")
+            print(f"Price        : ${item['price']:.2f}")
+            print(f"Quantity     : {item['quantity']}")
+            print(f"{'-' * 30}\n")
+            return True
+
+    print("Product ID not found.")
+    return False        
             
 def confirm_exit_before_saving(unsaved_changes):
     if unsaved_changes:
@@ -191,4 +223,5 @@ def confirm_exit_before_saving(unsaved_changes):
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
     else:
+        print("No changes were made. Exiting the program.")
         return True

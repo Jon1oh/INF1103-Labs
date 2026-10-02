@@ -4,7 +4,7 @@ from persistent_auditor import (
     get_new_item_details, update_inventory,
     load_inventory, save_inventory, display_inventory,
     display_menu, validate_menu_choice,
-    confirm_exit_before_saving
+    confirm_exit_before_saving, search_item
     )
 
 # Main program
@@ -51,7 +51,7 @@ while True:
         unsaved_changes = True
     
     elif validated_choice == "4":
-        pass # search product
+        search_item(inventory) # search product
     
     elif validated_choice == "5":
         save_inventory(inventory) # save inventory
