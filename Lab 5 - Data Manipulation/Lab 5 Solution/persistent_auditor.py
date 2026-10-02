@@ -126,7 +126,7 @@ def get_next_item_id(inventory):
         return 1
     return max(item["product_id"] for item in inventory) + 1
 
-def get_new_item_details():
+def get_new_item_details(inventory):
     while True: # ask for product name
         product_name = input("\nEnter Product Name (or 'back' to return to main menu): ").strip()
 
@@ -140,6 +140,11 @@ def get_new_item_details():
         if not product_name.isalpha():
             print("Product name must contain alphabets only.")
             continue
+        
+        if any(item["product_name"].lower() == product_name.lower() for item in inventory):
+            print("Product name already exists in the inventory. Please enter a unique product name.")
+            continue
+        
         break
 
     while True: # ask for product price

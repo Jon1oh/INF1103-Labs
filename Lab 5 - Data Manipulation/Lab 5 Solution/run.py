@@ -31,7 +31,7 @@ while True:
         display_inventory(inventory) 
         
     elif validated_choice == "2": # add product
-        new_item = get_new_item_details() 
+        new_item = get_new_item_details(inventory) 
         if not new_item: # when user quits during product addition
             continue
             
