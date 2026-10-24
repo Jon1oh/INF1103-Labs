@@ -1,0 +1,14 @@
+[
+    {
+        "product_id": 1,
+        "name": "apples",
+        "price": 0.5,
+        "stock_quantity": 2
+    },
+    {
+        "product_id": 2,
+        "name": "pears",
+        "price": 0.3,
+        "stock_quantity": 2
+    }
+]

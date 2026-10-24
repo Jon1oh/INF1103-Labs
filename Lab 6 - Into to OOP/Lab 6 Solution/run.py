@@ -6,6 +6,7 @@ from inventory_manager import (
     display_menu, validate_menu_choice,
     confirm_exit_before_saving, search_item
     )
+from product import Product
 
 # Main program
 print("=" * 40) 
@@ -36,19 +37,14 @@ while True:
             continue
             
         product_name, price, quantity = new_item
-        new_row = {
-            "product_id": get_next_item_id(inventory),
-            "product_name": product_name,
-            "price": price,
-            "quantity": quantity
-        }
-        inventory.append(new_row) # add the new item to the inventory
+        new_product = Product(get_next_item_id(inventory), product_name, price, quantity) # create a new Product object
+        inventory.append(new_product) # add the new product object to the inventory
         unsaved_changes = True
         print("\nProduct added successfully to the inventory!\n")
         
     elif validated_choice == "3":
-        update_inventory(inventory) # update stock
-        unsaved_changes = True
+        if update_inventory(inventory): # update stock
+            unsaved_changes = True
     
     elif validated_choice == "4":
         search_item(inventory) # search product

@@ -39,8 +39,18 @@ def generate_table(headers, rows, title=None, tablefmt="grid"):
     print(tabulate(rows, headers=headers, tablefmt=tablefmt) + "\n")
 
 def save_inventory(inventory, filename="inventory.json"):
+    data = []
+    
+    for item in inventory:
+        data.append({
+            "product_id": item.get_id(),
+            "name": item.get_name(),
+            "price": item.get_price(),
+            "stock_quantity": item.get_stock_quantity()
+        })
+        
     with open(filename, "w") as f:
-        json.dump(inventory, f, indent=4)
+        json.dump(data, f, indent=4)
 
 def load_inventory(filename="inventory.json"):
     # Load inventory from inventory.json. If the file does not exist, return an empty list.
@@ -53,7 +63,20 @@ def load_inventory(filename="inventory.json"):
     with open(filename, "r") as f:
         print("inventory.json found.")
         print("Inventory loaded successfully.\n")
-        return json.load(f)
+        data = json.load(f)
+        
+        inventory = []
+        
+        for item in data:
+            inventory.append(
+                Product(
+                item["product_id"],
+                item["name"],
+                item["price"],
+                item["stock_quantity"]                
+            )
+        )
+        return inventory
 
 def display_inventory(inventory):
     if not inventory:
@@ -62,10 +85,10 @@ def display_inventory(inventory):
 
     rows = [
         [
-            item["product_id"],
-            item["product_name"],
-            item["price"],
-            item["quantity"]
+            item.get_id(),
+            item.get_name(),
+            f"${item.get_price():.2f}",
+            item.get_stock_quantity()
         ]
         for item in inventory
     ]
@@ -95,10 +118,10 @@ def update_inventory(inventory):
             print("Please enter a valid integer Product ID.")
 
     for item in inventory:
-        if item["product_id"] == product_id:
+        if item.get_id() == product_id:
             print("\nProduct Found")
-            print(f"Product Name: {item['product_name']}")
-            print(f"Current Quantity: {item['quantity']}")
+            print(f"Product Name: {item.get_name()}")
+            print(f"Current Quantity: {item.get_stock_quantity()}")
 
             while True:
                 quantity_input = input("Enter New Quantity: ").strip()
@@ -112,7 +135,7 @@ def update_inventory(inventory):
                         print("Quantity must be 0 or greater.")
                         continue
                     
-                    item["quantity"] = new_quantity
+                    item.set_stock_quantity(new_quantity)
                     print(f"\nInventory updated successfully.")
                     print(f"New Quantity: {new_quantity}")
                     return True
@@ -125,7 +148,7 @@ def update_inventory(inventory):
 def get_next_item_id(inventory):
     if not inventory:
         return 1
-    return max(item["product_id"] for item in inventory) + 1
+    return max(item.get_id() for item in inventory) + 1
 
 def get_new_item_details(inventory):
     while True: # ask for product name
@@ -142,7 +165,7 @@ def get_new_item_details(inventory):
             print("Product name must contain alphabets only.")
             continue
         
-        if any(item["product_name"].lower() == product_name.lower() for item in inventory):
+        if any(item.get_name().lower() == product_name.lower() for item in inventory):
             print("Product name already exists in the inventory. Please enter a unique product name.")
             continue
         
@@ -204,14 +227,11 @@ def search_item(inventory):
         return False
 
     for item in inventory:
-        if item["product_id"] == product_id:
+        if item.get_id() == product_id:
 
             print("\nProduct Found")
             print("-" * 30)
-            print(f"Product ID   : {item['product_id']}")
-            print(f"Product Name : {item['product_name']}")
-            print(f"Price        : ${item['price']:.2f}")
-            print(f"Quantity     : {item['quantity']}")
+            print(item) # calls the __str__ function of the Product class
             print(f"{'-' * 30}\n")
             return True
 

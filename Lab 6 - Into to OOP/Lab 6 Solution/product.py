@@ -10,7 +10,7 @@ class Product:
         return f"Product ID: {self.product_id}, Name: {self.name}, Price: ${self.price:.2f}, Stock: {self.stock_quantity}"
     
     # Getters
-    def get_product_id(self):
+    def get_id(self):
         return self.product_id
     
     def get_name(self):
@@ -23,7 +23,7 @@ class Product:
         return self.stock_quantity
     
     # Setters
-    def set_product_id(self, product_id):
+    def set_id(self, product_id):
         self.product_id = product_id
     
     def set_name(self, name):
