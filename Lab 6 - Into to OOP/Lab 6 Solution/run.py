@@ -1,19 +1,19 @@
 # main program code/loop here
 from inventory_manager import (
-    display_inventory, get_next_item_id, save_inventory,
-    get_new_item_details, update_inventory,
-    load_inventory, save_inventory, display_inventory,
+    get_new_item_details,
     display_menu, validate_menu_choice,
-    confirm_exit_before_saving, search_item
+    confirm_exit_before_saving
     )
 from product import Product
+from inventory import Inventory
 
 # Main program
 print("=" * 40) 
 print("INVENTORY MANAGERMENT SYSTEM") # the program banner
 print("=" * 40)
 
-inventory = load_inventory()
+inventory = Inventory()
+inventory.load_inventory()
 unsaved_changes = False
 
 while True:
@@ -29,7 +29,7 @@ while True:
             continue
     
     if validated_choice == "1": # display all products
-        display_inventory(inventory) 
+        inventory.display_inventory()
         
     elif validated_choice == "2": # add product
         new_item = get_new_item_details(inventory) 
@@ -37,37 +37,27 @@ while True:
             continue
             
         product_name, price, quantity = new_item
-        new_product = Product(get_next_item_id(inventory), product_name, price, quantity) # create a new Product object
-        inventory.append(new_product) # add the new product object to the inventory
+        new_product = Product(inventory.get_next_item_id(), product_name, price, quantity) # create a new Product object
+        inventory.add_product(new_product) # add the new product object to the inventory
         unsaved_changes = True
         print("\nProduct added successfully to the inventory!\n")
         
-    elif validated_choice == "3":
-        if update_inventory(inventory): # update stock
+    elif validated_choice == "3": # update stock
+        if inventory.update_inventory(): 
             unsaved_changes = True
     
-    elif validated_choice == "4":
-        search_item(inventory) # search product
+    elif validated_choice == "4": # search product
+        try:
+            product_id = int(input("Enter Product ID: "))
+            product = inventory.search_product(product_id)
+            if product:
+                print(product)
+            else:
+                print("Product ID not found.")
+        except ValueError:
+            print("Please enter a valid number.")
     
     elif validated_choice == "5":
-        save_inventory(inventory) # save inventory
+        inventory.save_inventory() # save inventory
         unsaved_changes = False
         print("Inventory saved successfully.\n")
-    
-    # display_orders(orders)
-    # result = get_new_order_details() # get quantities for product name and quantity 
-    # if result is False:
-    #     save_summary(orders)
-    #     print(f"\nTotal Failed Validation Attempts: {stats['failed_attempts']}")
-    #     print("\nExiting the program.")
-    #     break
-
-    # product_name, quantity = result
-    # tax = calculate_tax(quantity)
-    # new_order = (get_next_order_id(orders), product_name, quantity, tax)
-
-    # save_order(new_order)
-    # orders.append(new_order)
-
-    # display_new_order(new_order)
-    # print("\nOrder successfully saved to orders.txt\n\n")

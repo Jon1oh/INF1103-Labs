@@ -1,7 +1,3 @@
-from tabulate import tabulate
-from product import Product
-import json, os
-
 def display_menu():    
     print(f"{'-' * 10}MENU{'-' * 10}")
     print("1. Display All Products")
@@ -21,135 +17,8 @@ def validate_menu_choice(choice):
         return "quit"
     else: # when input is options 1-5
         return choice
-
-
-def generate_table(headers, rows, title=None, tablefmt="grid"):
-    """
-    Display a formatted table using tabulate.
     
-    Parameters:
-        headers (list): Column headings.
-        rows (list): List of rows (each row is a list or tuple).
-        title (str): Optional table title.
-        tablefmt (str): Tabulate format style.
-    """
-    if title:
-        print(f"\n{title}")
-
-    print(tabulate(rows, headers=headers, tablefmt=tablefmt) + "\n")
-
-def save_inventory(inventory, filename="inventory.json"):
-    data = []
-    
-    for item in inventory:
-        data.append({
-            "product_id": item.get_id(),
-            "name": item.get_name(),
-            "price": item.get_price(),
-            "stock_quantity": item.get_stock_quantity()
-        })
         
-    with open(filename, "w") as f:
-        json.dump(data, f, indent=4)
-
-def load_inventory(filename="inventory.json"):
-    # Load inventory from inventory.json. If the file does not exist, return an empty list.
-    if not os.path.exists(filename):
-        print("\ninventory.json not found. Creating a new inventory file.")
-        with open(filename, "w") as f:
-            json.dump([], f, indent=4)
-        print("Inventory loaded successfully.\n")             
-        return []
-    with open(filename, "r") as f:
-        print("inventory.json found.")
-        print("Inventory loaded successfully.\n")
-        data = json.load(f)
-        
-        inventory = []
-        
-        for item in data:
-            inventory.append(
-                Product(
-                item["product_id"],
-                item["name"],
-                item["price"],
-                item["stock_quantity"]                
-            )
-        )
-        return inventory
-
-def display_inventory(inventory):
-    if not inventory:
-        print("\nInventory is empty.\n")
-        return
-
-    rows = [
-        [
-            item.get_id(),
-            item.get_name(),
-            f"${item.get_price():.2f}",
-            item.get_stock_quantity()
-        ]
-        for item in inventory
-    ]
-
-    table_headers = ["Product ID", "Product Name", "Price", "Quantity"]
-    generate_table(table_headers, rows, "Current Inventory")
-        
-def update_inventory(inventory):
-    if not inventory:
-        print("\nInventory is empty.\n")
-        return False
-
-    while True:
-        product_id_input = input("\nEnter Product ID to update: ").strip()
-        if product_id_input == "":
-            print("Product ID cannot be empty.")
-            continue
-
-        try:
-            product_id = int(product_id_input)
-            if product_id <= 0:
-                print("Product ID must be greater than 0.")
-                continue
-            break
-
-        except ValueError:
-            print("Please enter a valid integer Product ID.")
-
-    for item in inventory:
-        if item.get_id() == product_id:
-            print("\nProduct Found")
-            print(f"Product Name: {item.get_name()}")
-            print(f"Current Quantity: {item.get_stock_quantity()}")
-
-            while True:
-                quantity_input = input("Enter New Quantity: ").strip()
-                if quantity_input == "":                    
-                    print("Quantity cannot be empty.")
-                    continue
-
-                try:
-                    new_quantity = int(quantity_input)
-                    if new_quantity < 0:
-                        print("Quantity must be 0 or greater.")
-                        continue
-                    
-                    item.set_stock_quantity(new_quantity)
-                    print(f"\nInventory updated successfully.")
-                    print(f"New Quantity: {new_quantity}")
-                    return True
-
-                except ValueError:
-                    print("Please enter a valid integer quantity.")
-    print("Product ID not found.")
-    return False
-
-def get_next_item_id(inventory):
-    if not inventory:
-        return 1
-    return max(item.get_id() for item in inventory) + 1
-
 def get_new_item_details(inventory):
     while True: # ask for product name
         product_name = input("\nEnter Product Name (or 'back' to return to main menu): ").strip()
@@ -165,7 +34,7 @@ def get_new_item_details(inventory):
             print("Product name must contain alphabets only.")
             continue
         
-        if any(item.get_name().lower() == product_name.lower() for item in inventory):
+        if any(item.get_name().lower() == product_name.lower() for item in inventory.products): 
             print("Product name already exists in the inventory. Please enter a unique product name.")
             continue
         
@@ -209,35 +78,7 @@ def get_new_item_details(inventory):
         except ValueError:
             print("Invalid input. Please enter a valid integer.")    
             
-def search_item(inventory):
-    if not inventory:
-        print("\nInventory is empty.\n")
-        return False
-
-    product_id_input = input("\nEnter Product ID to search: ").strip()
-
-    if product_id_input == "":
-        print("Product ID cannot be empty.")
-        return False
-
-    try:
-        product_id = int(product_id_input)
-    except ValueError:
-        print("Please enter a valid integer Product ID.")
-        return False
-
-    for item in inventory:
-        if item.get_id() == product_id:
-
-            print("\nProduct Found")
-            print("-" * 30)
-            print(item) # calls the __str__ function of the Product class
-            print(f"{'-' * 30}\n")
-            return True
-
-    print("Product ID not found.")
-    return False        
-            
+                        
 def confirm_exit_before_saving(unsaved_changes):
     if unsaved_changes:
         while True:

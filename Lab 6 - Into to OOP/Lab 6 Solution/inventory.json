@@ -10,5 +10,11 @@
         "name": "pears",
         "price": 0.3,
         "stock_quantity": 2
+    },
+    {
+        "product_id": 3,
+        "name": "mango",
+        "price": 2.0,
+        "stock_quantity": 2
     }
 ]
