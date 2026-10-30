@@ -2,9 +2,9 @@
 from inventory_manager import (
     get_new_item_details,
     display_menu, validate_menu_choice,
-    confirm_exit_before_saving
+    confirm_exit_before_saving, 
+    create_new_product
     )
-from models.product import Product
 from models.inventory import Inventory
 
 # Main program
@@ -32,15 +32,15 @@ while True:
         inventory.display_inventory()
         
     elif validated_choice == "2": # add product
-        new_item = get_new_item_details(inventory) 
-        if not new_item: # when user quits during product addition
+        new_item = get_new_item_details(inventory)
+        if not new_item:
             continue
-            
-        product_name, price, quantity = new_item
-        new_product = Product(inventory.get_next_item_id(), product_name, price, quantity) # create a new Product object
-        inventory.add_product(new_product) # add the new product object to the inventory
+
+        product_type, product_name, price, quantity = new_item
+        new_product = create_new_product( product_type, inventory.get_next_item_id(), product_name, price, quantity)
+        inventory.add_product(new_product)
         unsaved_changes = True
-        print("\nProduct added successfully to the inventory!\n")
+        print("\nProduct added successfully to the inventory!\n")        
         
     elif validated_choice == "3": # update stock
         if inventory.update_inventory(): 

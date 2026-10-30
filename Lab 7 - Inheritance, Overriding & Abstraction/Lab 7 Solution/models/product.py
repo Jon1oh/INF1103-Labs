@@ -6,12 +6,10 @@ class Product(ABC): # ABC makes Product a class template, which can't be used to
         self.name = name
         self.price = price
         self.stock_quantity = stock_quantity
-        self.type = type
     
     # display format of product info when an object is created and printed
     def __str__(self):
         return (
-            f"Product Type: {self.type}\n"
             f"Product ID: {self.product_id}\n"
             f"Name: {self.name}\n"
             f"Price: {self.price}\n"
@@ -34,10 +32,7 @@ class Product(ABC): # ABC makes Product a class template, which can't be used to
     
     def get_stock_quantity(self):
         return self.stock_quantity
-    
-    def get_type(self):
-        return self.type
-    
+        
     # Setters
     def set_id(self, product_id):
         self.product_id = product_id
@@ -50,6 +45,3 @@ class Product(ABC): # ABC makes Product a class template, which can't be used to
         
     def set_stock_quantity(self, stock_quantity):
         self.stock_quantity = stock_quantity
-    
-    def set_type(self, type):
-        self.type = type
