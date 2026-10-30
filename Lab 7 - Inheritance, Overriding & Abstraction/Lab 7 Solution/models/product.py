@@ -1,22 +1,24 @@
 from abc import ABC, abstractmethod
 
-class Product(ABC):
-    def __init__(self, product_id, name, price, stock_quantity):
+class Product(ABC): # ABC makes Product a class template, which can't be used to directly make objects
+    def __init__(self, product_id, name, price, stock_quantity, type):
         self.product_id = product_id
         self.name = name
         self.price = price
         self.stock_quantity = stock_quantity
+        self.type = type
     
     # display format of product info when an object is created and printed
     def __str__(self):
         return (
+            f"Product Type: {self.type}\n"
             f"Product ID: {self.product_id}\n"
             f"Name: {self.name}\n"
             f"Price: {self.price}\n"
             f"Stock Quantity: {self.stock_quantity}\n"
         )
     
-    @abstractmethod
+    @abstractmethod # the @abstractmethod makes the method in this class template. Each sub-class must explicitly define what this method does.
     def get_fufilment_info(self):
         pass
         
@@ -33,6 +35,9 @@ class Product(ABC):
     def get_stock_quantity(self):
         return self.stock_quantity
     
+    def get_type(self):
+        return self.type
+    
     # Setters
     def set_id(self, product_id):
         self.product_id = product_id
@@ -44,4 +49,7 @@ class Product(ABC):
         self.price = price
         
     def set_stock_quantity(self, stock_quantity):
-        self.stock_quantity =stock_quantity
+        self.stock_quantity = stock_quantity
+    
+    def set_type(self, type):
+        self.type = type
