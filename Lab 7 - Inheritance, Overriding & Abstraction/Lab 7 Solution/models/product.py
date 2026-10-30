@@ -7,8 +7,13 @@ class Product:
     
     # display format of product info when an object is created and printed
     def __str__(self):
-        return f"Product ID: {self.product_id}, Name: {self.name}, Price: ${self.price:.2f}, Stock: {self.stock_quantity}"
-    
+        return (
+            f"Product ID: {self.product_id}\n"
+            f"Name: {self.name}\n"
+            f"Price: {self.price}\n"
+            f"Stock Quantity: {self.stock_quantity}\n"
+        )
+        
     # Getters
     def get_id(self):
         return self.product_id
