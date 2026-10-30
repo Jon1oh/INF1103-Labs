@@ -1,5 +1,5 @@
-from product import Product
-from interfaces.canBeShipped import CanBeShipped
+from models.product import Product
+from models.interfaces.canBeShipped import CanBeShipped
 
 class PhysicalProduct(Product, CanBeShipped):
     def __init__(self, product_id, name, price, stock_quantity, weight):
@@ -18,9 +18,3 @@ class PhysicalProduct(Product, CanBeShipped):
     @property
     def get_shipping_weight(self):
         return f"The shipping weight is {self.weight}kg."
-    
-
-object = PhysicalProduct(1, "watch", "$5", 10, 0.8)
-print(object.display_info)
-print(object.get_fufilment_info)
-print(object.get_shipping_weight)

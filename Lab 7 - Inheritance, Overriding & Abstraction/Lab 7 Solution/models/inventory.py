@@ -1,4 +1,5 @@
-from product import Product
+from models.physicalProduct import PhysicalProduct
+from models.digitalProduct import DigitalProduct
 from tabulate import tabulate
 import json, os
 
@@ -88,35 +89,56 @@ class Inventory:
 
     def save_inventory(self, filename="inventory.json"):
         data = []
-
         for product in self.products:
-            data.append({
-                "product_id": product.get_id(),
-                "name": product.get_name(),
-                "price": product.get_price(),
-                "stock_quantity": product.get_stock_quantity()
-            })
+            if isinstance(product, PhysicalProduct):
+                data.append({
+                    "type": "physical",
+                    "product_id": product.get_id(),
+                    "name": product.get_name(),
+                    "price": product.get_price(),
+                    "stock_quantity": product.get_stock_quantity(),
+                    "weight": product.get_weight # uses @abstractmethod
+                })
 
+            elif isinstance(product, DigitalProduct):
+                data.append({
+                    "type": "digital",
+                    "product_id": product.get_id(),
+                    "name": product.get_name(),
+                    "price": product.get_price(),
+                    "stock_quantity": product.get_stock_quantity(),
+                    "download_size": product.get_download_size # uses @abstractmethod
+                })
         with open(filename, "w") as f:
             json.dump(data, f, indent=4)
-
+            
     def load_inventory(self, filename="inventory.json"):
         if not os.path.exists(filename):
             with open(filename, "w") as f:
                 json.dump([], f, indent=4)
-
             self.products = []
             return
 
         with open(filename, "r") as f:
             data = json.load(f)
 
-        self.products = [
-            Product(
-                item["product_id"],
-                item["name"],
-                item["price"],
-                item["stock_quantity"]
-            )
-            for item in data
-        ]
+        for item in data:
+            if item["type"] == "physical":
+                product = PhysicalProduct(
+                    item["product_id"],
+                    item["name"],
+                    item["price"],
+                    item["stock_quantity"],
+                    item["weight"]
+                )
+
+            elif item["type"] == "digital":
+                product = DigitalProduct(
+                    item["product_id"],
+                    item["name"],
+                    item["price"],
+                    item["stock_quantity"],
+                    item["download_size"]
+                )
+
+            self.products.append(product)

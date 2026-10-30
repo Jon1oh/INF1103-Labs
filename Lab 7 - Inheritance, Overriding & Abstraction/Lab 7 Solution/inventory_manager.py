@@ -26,16 +26,13 @@ def create_new_product(type, id, name, price, quantity):
         while True:
             try:
                 weight = float(input("Enter weight (kg): "))
-                if weight < 0:
-                    print("Weight must be greater than 0.")
+                if weight < 0 or weight == 0:
+                    print("Weight must be greater 0")
                     continue
-                elif not weight:
-                    print("Weight can't be empty.")
-                    continue
+                return PhysicalProduct(id, name, price, quantity, weight)
             except ValueError:
                 print("Invalid input. Weight must be a float value.")
         
-            return PhysicalProduct(id, name, price, quantity, weight)
                     
     if type == "digital":
         while True:
@@ -44,13 +41,10 @@ def create_new_product(type, id, name, price, quantity):
                 if download_size < 0:
                     print("Download size must be greater than 0.")
                     continue
-                elif not download_size:
-                    print("Download size can't be empty.")
-                    continue
+                return DigitalProduct(id, name, price, quantity, download_size)                
             except ValueError:
                 print("Invalid input. Download size must be a float value.")
             
-            return DigitalProduct(id, name, price, quantity, download_size)
     
         
 def get_new_item_details(inventory):

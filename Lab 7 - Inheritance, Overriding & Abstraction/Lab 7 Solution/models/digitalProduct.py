@@ -1,5 +1,5 @@
-from product import Product
-from interfaces.canBeDownloaded import CanBeDownloaded
+from models.product import Product
+from models.interfaces.canBeDownloaded import CanBeDownloaded
 
 class DigitalProduct(Product, CanBeDownloaded):
     def __init__(self, product_id, name, price, stock_quantity, download_size):
@@ -18,8 +18,3 @@ class DigitalProduct(Product, CanBeDownloaded):
     @property
     def get_download_size(self):
         return f"The download size is {self.download_size}MB."
-
-file = DigitalProduct(1, "file", "$5", 1, 10)
-print(file.display_info)
-print(file.get_fufilment_info)
-print(file.get_download_size)
