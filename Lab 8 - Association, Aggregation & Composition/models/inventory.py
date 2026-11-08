@@ -18,7 +18,7 @@ class Inventory:
 
         return max(product.get_id() for product in self.products) + 1
 
-    def search_product(self, product_id: str) -> Product:
+    def search_product(self, product_id: str) -> Product | None:
         for product in self.products:
             if product.get_id() == product_id:
                 return product
