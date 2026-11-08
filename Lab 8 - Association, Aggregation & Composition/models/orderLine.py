@@ -1,4 +1,4 @@
-from product import Product
+from models.product import Product
 
 class OrderLine(Product):
     def __init__(self, product_id, name, price, stock_quantity, supplier, order_quantity):

@@ -1,5 +1,5 @@
-from orderLine import OrderLine
-from product import Product
+from models.orderLine import OrderLine
+from models.product import Product
 
 class Order:
     def __init__(self, order_id: str, orderLines: list[OrderLine]):
