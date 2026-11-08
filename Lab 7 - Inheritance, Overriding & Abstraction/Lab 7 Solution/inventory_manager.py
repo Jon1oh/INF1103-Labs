@@ -27,7 +27,7 @@ def create_new_product(type, id, name, price, quantity):
             try:
                 weight = float(input("Enter weight (kg): "))
                 if weight < 0 or weight == 0:
-                    print("Weight must be greater 0")
+                    print("Weight must be greater than 0")
                     continue
                 return PhysicalProduct(id, name, price, quantity, weight)
             except ValueError:

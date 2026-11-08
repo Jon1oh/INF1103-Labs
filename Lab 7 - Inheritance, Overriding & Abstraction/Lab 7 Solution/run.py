@@ -9,7 +9,7 @@ from models.inventory import Inventory
 
 # Main program
 print("=" * 40) 
-print("INVENTORY MANAGERMENT SYSTEM") # the program banner
+print("INVENTORY MANAGEMENT SYSTEM") # the program banner
 print("=" * 40)
 
 inventory = Inventory()

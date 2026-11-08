@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 class Product(ABC): # ABC makes Product a class template, which can't be used to directly make objects
-    def __init__(self, product_id, name, price, stock_quantity, type):
+    def __init__(self, product_id, name, price, stock_quantity):
         self.product_id = product_id
         self.name = name
         self.price = price
@@ -17,7 +17,7 @@ class Product(ABC): # ABC makes Product a class template, which can't be used to
         )
     
     @abstractmethod # the @abstractmethod makes the method in this class template. Each sub-class must explicitly define what this method does.
-    def get_fufilment_info(self):
+    def get_fulfilment_info(self):
         pass
         
     # Getters

@@ -22,7 +22,6 @@ class Inventory:
         for product in self.products:
             if product.get_id() == product_id:
                 return product
-
         return None
 
     def display_inventory(self):
