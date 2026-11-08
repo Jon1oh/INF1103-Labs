@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from supplier import Supplier
+from models.supplier import Supplier
 
 class Product(ABC): # ABC makes Product a class template, which can't be used to directly make objects
     def __init__(self, product_id, name, price, stock_quantity, supplier: Supplier):
